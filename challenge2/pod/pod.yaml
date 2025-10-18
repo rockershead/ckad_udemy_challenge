@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gop-file-server
+    #namespace: development
+  labels:
+    app: fileserver
+spec:
+  volumes:
+    - name: data-store
+      persistentVolumeClaim:
+        claimName: data-pvc
+  containers:
+  - name: fileserver
+    image: kodekloud/fileserver
+      #command: ['sh', '-c', 'cd /site && bundle install && bundle exec jekyll serve --host 0.0.0.0 --port 4000']
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+    - name: data-store
+      mountPath: /web
+  
+
+ # tolerations:
+#  - key: "node.kubernetes.io/unschedulable"
+  #  operator: "Equal"
+ #   effect: "NoSchedule"
